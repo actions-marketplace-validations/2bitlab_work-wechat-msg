@@ -29,7 +29,7 @@ const sendMsgToWeChat = async (botKey: string, props: Parmas): Promise<void> => 
         data: props
       })
     } catch (error) {
-        core.setFailed(error)
+      if (error instanceof Error) core.setFailed(error.message)
     }
   }
 
