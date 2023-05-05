@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'
   
       - name: Install dependencies
-        run: npm i
+        run: npm install
 
       - name: Move the committed index.js file
         run: mv dist/index.js /tmp
