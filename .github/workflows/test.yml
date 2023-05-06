@@ -13,5 +13,5 @@ jobs:
         uses: 2bitlab/work-wechat-msg@master
         with: 
           botKey: ${{ secrets.WORK_WECHAT_GITHUB_ROBOT_KEY }}
-          content: github action build test
+          markdown: github action build test
 

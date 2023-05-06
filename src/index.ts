@@ -25,8 +25,8 @@ const sendMsgToWeChat = async (botKey: string, props: Parmas): Promise<void> => 
         url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${botKey}`,
         data: props
       })
-      core.debug(`data: ${props}`)
-      core.debug(`res: ${res}`)
+      core.debug(`data: ${JSON.stringify(props)}`)
+      core.debug(`res: ${JSON.stringify(res)}`)
     } catch (error) {
       if (error instanceof Error) core.setFailed(error.message)
     }
