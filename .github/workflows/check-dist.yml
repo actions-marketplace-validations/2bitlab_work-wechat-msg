@@ -4,18 +4,21 @@
 # For our project, we generate this file through a build process
 # from other source files.
 # We need to make sure the checked-in `index.js` actually matches what we expect it to be.
-name: Check dist/
+name: Rebuild dist/index.js
 
 on:
   push:
     branches:
       - main
       - master
+    paths-ignore:
+      - 'dist/**'
   pull_request:
     branches:
       - main
       - master
-  workflow_dispatch:
+    paths-ignore:
+      - 'dist/**'
 
 jobs:
   check-dist:
@@ -32,22 +35,25 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Move the committed index.js file
-        run: mv dist/index.js /tmp
-
-      - name: Rebuild with tsc
-        run: npm run build
+      - name: Rebuild the index.js file
+        run: npm build
 
       - name: Rebuild the index.js file
-        run: npm run release
+        run: |
+          remote_addr=`git remote get-url --push origin`
+          echo "remote_addr: ${remote_addr}"
+          user_name=`git log -1 --pretty=format:'%an'`
+          echo "user_name: ${user_name}"
 
-      - name: Compare the expected and actual index.js files
-        run: git diff --ignore-all-space dist/index.js /tmp/index.js
-        id: diff
+          remote_addr=`echo $remote_addr|  awk -F'://' '{print $2}'`
+          remote_addr=https://${user_name}:${{ secrets.ACCESS_TOKEN }}@${remote_addr}
 
-      # If index.js was different than expected, upload the expected version as an artifact
-      - uses: actions/upload-artifact@v3
-        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
-        with:
-          name: index.js
-          path: dist/index.js
+          echo "Will send to remote_addr: ${remote_addr}"
+          
+          git add -f dist/
+          git commit -m "Rebuild dist/index.js"
+          git remote add origin ${remote_addr}
+          git push origin master --force
+
+
+    
