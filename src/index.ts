@@ -8,7 +8,9 @@ type MsgType = 'text' | 'markdown'
 
 interface Parmas {
   msgtype: MsgType
-  markdown?: string
+  markdown?: {
+    content: string
+  }
   text?: {
       content: string
       mentioned_mobile_list?: string[]
@@ -27,9 +29,18 @@ const sendMsgToWeChat = async (botKey: string, props: Parmas): Promise<void> => 
       })
 
       const { data, status } = res || {}
+      const { errcode } = data || {}
+
+
       core.debug(`data: ${JSON.stringify(props)}`)
       core.debug(`res.data: ${JSON.stringify(data)}`)
       core.debug(`res.status: ${status}`)
+
+      core.debug(`res.data.errcode: ${errcode}`)
+      
+      if (errcode) {
+        core.setFailed(JSON.stringify(data))
+      }
     } catch (error) {
       if (error instanceof Error) core.setFailed(error.message)
     }
@@ -55,7 +66,6 @@ async function run(): Promise<void> {
 
     const props: Parmas = {
         msgtype,
-        markdown,
     }
 
     if (msgtype === 'text') {
@@ -63,6 +73,11 @@ async function run(): Promise<void> {
             content,
             mentioned_mobile_list: mentionedMobileList
         }
+    } else if (msgtype === 'text') {
+      props.markdown = {
+          content,
+          mentioned_mobile_list: mentionedMobileList
+      }
     }
    
     await sendMsgToWeChat(botKey, props)
