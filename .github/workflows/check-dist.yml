@@ -62,12 +62,7 @@ jobs:
           # git remote add origin ${remote_addr}
           git push origin master --force
 
-      - name: Test
-        uses: 2bitlab/work-wechat-msg@master
-        with: 
-          botKey: ${{ secrets.WORK_WECHAT_GITHUB_ROBOT_KEY }}
-          content: github action build test
-
+     
 
 
     
