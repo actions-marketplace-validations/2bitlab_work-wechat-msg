@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as core from '@actions/core'
 // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
 
 import axios from 'axios'
-
 
 type MsgType = 'text' | 'markdown'
 
@@ -45,11 +43,11 @@ async function run(): Promise<void> {
     const mentionedMobileList: string[] = (core.getInput('mentionedMobileList') || '').split(',')
 
   
-    core.debug(`botKey:${botKey}`)
-    core.debug(`content:${content}`)
-    core.debug(`msgtype:${msgtype}`)
-    core.debug(`markdown:${markdown}`)
-    core.debug(`mentionedMobileList:${mentionedMobileList}`)
+    core.debug(`botKey: ${botKey}`)
+    core.debug(`content: ${content}`)
+    core.debug(`msgtype: ${msgtype}`)
+    core.debug(`markdown: ${markdown}`)
+    core.debug(`mentionedMobileList: ${mentionedMobileList}`)
 
     const props: Parmas = {
         msgtype,
