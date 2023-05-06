@@ -58,7 +58,7 @@ async function run(): Promise<void> {
     const mentionedMobileList: string[] = (core.getInput('mentionedMobileList') || '').split(',')
 
   
-    core.debug(`botKey: ${!!botKey}`)
+    core.debug(`botKey: ${botKey}`)
     core.debug(`content: ${content}`)
     core.debug(`msgtype: ${msgtype}`)
     core.debug(`mentionedMobileList: ${mentionedMobileList}`)
