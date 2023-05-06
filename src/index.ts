@@ -10,10 +10,11 @@ interface Parmas {
   msgtype: MsgType
   markdown?: {
     content: string
+    mentioned_mobile_list?: string[]
   }
   text?: {
-      content: string
-      mentioned_mobile_list?: string[]
+    content: string
+    mentioned_mobile_list?: string[]
   }
 }
 
@@ -50,10 +51,9 @@ const sendMsgToWeChat = async (botKey: string, props: Parmas): Promise<void> => 
 async function run(): Promise<void> {
   try {
     const botKey: string = core.getInput('botKey')
-    const content: string = core.getInput('content')
+    const content: string = core.getInput('content') || ''
 
-    const msgtype: MsgType = core.getInput('msgtype') as MsgType || 'markdown'
-    const markdown: string = core.getInput('markdown')
+    const msgtype = core.getInput('msgtype') as MsgType
 
     const mentionedMobileList: string[] = (core.getInput('mentionedMobileList') || '').split(',')
 
@@ -61,7 +61,6 @@ async function run(): Promise<void> {
     core.debug(`botKey: ${botKey}`)
     core.debug(`content: ${content}`)
     core.debug(`msgtype: ${msgtype}`)
-    core.debug(`markdown: ${markdown}`)
     core.debug(`mentionedMobileList: ${mentionedMobileList}`)
 
     const props: Parmas = {
@@ -71,12 +70,18 @@ async function run(): Promise<void> {
     if (msgtype === 'text') {
         props.text = {
             content,
-            mentioned_mobile_list: mentionedMobileList
         }
-    } else if (msgtype === 'text') {
+
+      if (mentionedMobileList.length) {
+        props.text.mentioned_mobile_list = mentionedMobileList
+      }
+
+    } else if (msgtype === 'markdown') {
       props.markdown = {
           content,
-          mentioned_mobile_list: mentionedMobileList
+      }
+      if (mentionedMobileList.length) {
+        props.markdown.mentioned_mobile_list = mentionedMobileList
       }
     }
    
