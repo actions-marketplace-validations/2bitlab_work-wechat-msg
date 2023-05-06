@@ -38,6 +38,7 @@ jobs:
       - name: Push dist/index.js file
         run: |
           npm run build
+          npm run package
 
           echo "$(ls)"
 
