@@ -7,18 +7,17 @@ import axios from 'axios'
 type MsgType = 'text' | 'markdown'
 
 interface Parmas {
-   
-    msgtype: MsgType
-    markdown?: string
-    text?: {
-        content: string
-        mentioned_mobile_list?: string[]
-    }
+  msgtype: MsgType
+  markdown?: string
+  text?: {
+      content: string
+      mentioned_mobile_list?: string[]
+  }
 }
 
 const sendMsgToWeChat = async (botKey: string, props: Parmas): Promise<void> => {
     try {
-      await axios({
+      const res = await axios({
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -26,6 +25,8 @@ const sendMsgToWeChat = async (botKey: string, props: Parmas): Promise<void> => 
         url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${botKey}`,
         data: props
       })
+      core.debug(`data: ${props}`)
+      core.debug(`res: ${res}`)
     } catch (error) {
       if (error instanceof Error) core.setFailed(error.message)
     }
