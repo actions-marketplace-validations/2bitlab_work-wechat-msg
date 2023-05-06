@@ -35,7 +35,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const core = __importStar(require("@actions/core"));
 // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
@@ -64,11 +63,11 @@ function run() {
             const msgtype = core.getInput('msgtype') || 'markdown';
             const markdown = core.getInput('markdown');
             const mentionedMobileList = (core.getInput('mentionedMobileList') || '').split(',');
-            core.debug(`botKey:${botKey}`);
-            core.debug(`content:${content}`);
-            core.debug(`msgtype:${msgtype}`);
-            core.debug(`markdown:${markdown}`);
-            core.debug(`mentionedMobileList:${mentionedMobileList}`);
+            core.debug(`botKey: ${botKey}`);
+            core.debug(`content: ${content}`);
+            core.debug(`msgtype: ${msgtype}`);
+            core.debug(`markdown: ${markdown}`);
+            core.debug(`mentionedMobileList: ${mentionedMobileList}`);
             const props = {
                 msgtype,
                 markdown,
