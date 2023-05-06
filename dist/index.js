@@ -57,9 +57,14 @@ const sendMsgToWeChat = (botKey, props) => __awaiter(void 0, void 0, void 0, fun
             data: props
         });
         const { data, status } = res || {};
+        const { errcode } = data || {};
         core.debug(`data: ${JSON.stringify(props)}`);
         core.debug(`res.data: ${JSON.stringify(data)}`);
         core.debug(`res.status: ${status}`);
+        core.debug(`res.data.errcode: ${errcode}`);
+        if (errcode) {
+            core.setFailed(JSON.stringify(data));
+        }
     }
     catch (error) {
         if (error instanceof Error)
@@ -70,24 +75,31 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const botKey = core.getInput('botKey');
-            const content = core.getInput('content');
-            const msgtype = core.getInput('msgtype') || 'markdown';
-            const markdown = core.getInput('markdown');
+            const content = core.getInput('content') || '';
+            const msgtype = core.getInput('msgtype');
             const mentionedMobileList = (core.getInput('mentionedMobileList') || '').split(',');
             core.debug(`botKey: ${botKey}`);
             core.debug(`content: ${content}`);
             core.debug(`msgtype: ${msgtype}`);
-            core.debug(`markdown: ${markdown}`);
             core.debug(`mentionedMobileList: ${mentionedMobileList}`);
             const props = {
                 msgtype,
-                markdown,
             };
             if (msgtype === 'text') {
                 props.text = {
                     content,
-                    mentioned_mobile_list: mentionedMobileList
                 };
+                if (mentionedMobileList.length) {
+                    props.text.mentioned_mobile_list = mentionedMobileList;
+                }
+            }
+            else if (msgtype === 'markdown') {
+                props.markdown = {
+                    content,
+                };
+                if (mentionedMobileList.length) {
+                    props.markdown.mentioned_mobile_list = mentionedMobileList;
+                }
             }
             yield sendMsgToWeChat(botKey, props);
         }
