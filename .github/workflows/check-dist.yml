@@ -45,6 +45,11 @@ jobs:
           echo "remote_addr: ${remote_addr}"
           user_name=`git log -1 --pretty=format:'%an'`
           echo "user_name: ${user_name}"
+          user_email=`git log -1 --pretty=format:'%ae'`
+          echo "user_email: ${user_email}"
+
+          git config user.name ${user_name}
+          git config user.email ${user_email}
 
           remote_addr=`echo $remote_addr|  awk -F'://' '{print $2}'`
           remote_addr=https://${user_name}:${{ secrets.ACCESS_TOKEN }}@${remote_addr}
