@@ -56,8 +56,10 @@ const sendMsgToWeChat = (botKey, props) => __awaiter(void 0, void 0, void 0, fun
             url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${botKey}`,
             data: props
         });
+        const { data, status } = res || {};
         core.debug(`data: ${JSON.stringify(props)}`);
-        core.debug(`res: ${JSON.stringify(res)}`);
+        core.debug(`res.data: ${JSON.stringify(data)}`);
+        core.debug(`res.status: ${status}`);
     }
     catch (error) {
         if (error instanceof Error)
