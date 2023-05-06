@@ -48,7 +48,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const axios_1 = __importDefault(__nccwpck_require__(6545));
 const sendMsgToWeChat = (botKey, props) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, axios_1.default)({
+        const res = yield (0, axios_1.default)({
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -56,6 +56,8 @@ const sendMsgToWeChat = (botKey, props) => __awaiter(void 0, void 0, void 0, fun
             url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${botKey}`,
             data: props
         });
+        core.debug(`data: ${props}`);
+        core.debug(`res: ${res}`);
     }
     catch (error) {
         if (error instanceof Error)
