@@ -1,25 +1,18 @@
-name: 'build-test'
+name: 'Test'
+
 on: # rebuild any PRs and main branch changes
-  push:
-    branches:
-      - master
-    tags:
-      - release/*
+  workflow_run:
+    workflows: [Rebuild dist/index.js]
+    types:
+      - completed
+   
 jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        id: hello
-        with:
-          githubToken: ${{ secrets.ACCESS_TOKEN }}
-      - name: Use env branch
-        # env:
-        # BRANCH: '${{ steps.hello.outputs.branch }}'
-        run: echo env.BRANCH
-      - name: Use env repository
-        # env:
-        # REPOSITORY: '${{ steps.hello.outputs.repository }}'
-        run: |
-          echo env.REPOSITORY
+      - name: Work Wechat Send Msg
+        uses: 2bitlab/work-wechat-msg@master
+        with: 
+          botKey: ${{ secrets.WORK_WECHAT_GITHUB_ROBOT_KEY }}
+          content: github action build test
+

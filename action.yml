@@ -14,9 +14,7 @@ inputs:
   msgtype:
     required: false
     description: '消息类型'
-  markdown:
-    required: false
-    description: 'markdown'
+    default: 'text'
   mentionedMobileList:
     required: false
     description: '通知谁'

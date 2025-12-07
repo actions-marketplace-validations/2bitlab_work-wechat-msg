@@ -3,9 +3,9 @@
     "version": "0.0.4",
     "private": true,
     "description": "work wechat msg action",
-    "main": "lib/main.js",
+    "main": "dist/index.js",
     "scripts": {
-      "build": "rimraf lib/* && tsc",
+      "build": "rimraf dist/* && tsc",
       "format": "prettier --write '**/*.ts'",
       "format-check": "prettier --check '**/*.ts'",
       "lint": "eslint src/**/*.ts",
